@@ -1,0 +1,109 @@
+public class sheet {
+    public static void main(String[] arge) {
+
+
+
+    }
+
+ private static int fib(int num){
+      int num1=1,num2=1;
+      int temp;
+      for(int i=0;i<num-2;i++){
+          temp=num2;
+          num2+=num1;
+          num1=temp;
+
+      }
+      return num2;
+ }
+}
+
+class  MySpecialArrayUtilswith implements  inter{
+
+    public  void reverse ( int[] arr) {
+        int x = arr.length;
+        int temp;
+        for (int i = 0; i < x / 2; i++) {
+            temp = arr[i];
+            arr[i] = arr[x - 1 - i];
+            arr[x - i - 1] = temp;
+        }
+    }
+        public  int[] sumEvenOdd (int[] arr)
+
+        {
+
+            int x=arr.length;
+
+           int []arrOddEven= new int[]{0, 0};
+
+
+            for(int i=0;i<x;i++){
+               arrOddEven[i%2]+=arr[i];
+
+            }
+
+
+            return arrOddEven;
+
+
+        }
+
+    public double average(int[] arr){
+        double x=0;
+        int t=arr.length;
+        for(int i=0;i<t;i++){
+            x+=arr[i]/t;
+        }
+        return x;
+
+    }
+    public  void moveValue(int[] arr, int val){
+        int x=arr.length;
+        int count=0;
+        for(int i=0;i<x-1-count;i++){
+
+            if(arr[i]==val){
+
+                int temp;
+                for(int g=i;g<x-1-count;g++){
+                    temp=arr[g];
+                    arr[g]=arr[g+1];
+                    arr[g+1]=temp;
+
+                }
+                i--;
+                count++;
+
+            }
+
+        }
+
+    }
+    public void transpose(int[][] arr){
+        int x=arr.length;
+       int temp;
+        int count=0;
+       for(int i=0;i<x;i++){
+
+           for(int g=0;g<count;g++){
+               temp=arr[i][g];
+               arr[i][g]=arr[g][i];
+               arr[g][i]=temp;
+           }
+           count++;
+       }
+    }
+
+    }
+
+
+interface  inter {
+    public  void reverse ( int[] arr);
+    public void transpose(int[][] arr);
+    public  void moveValue(int[] arr, int val);
+    public double average(int[] arr);
+    public  int[] sumEvenOdd (int[] arr);
+}
+
+
