@@ -1,0 +1,346 @@
+public class assaignment {
+    public static void main(String args[]){
+       
+
+
+    }
+}
+
+
+
+class LinkedListNode{
+    public    Integer num;
+    public LinkedListNode NEXT;
+    public Integer getValue(){
+        return num;
+    }
+    public LinkedListNode getNext(){
+        return NEXT;
+    }
+    public void setNext(LinkedListNode NEXT){
+        this.NEXT=NEXT;
+    }
+    public void  setValue(int num){
+        this.num=num;
+    }
+
+}
+
+class MySpecialLinkedListUtils {
+
+
+    public static double[] summary(LinkedListNode head) {
+        double sum = 0;
+        double average = 0, median = 0, maximum = 0, minimum = 0;
+        int numOfMembers = 0;
+        LinkedListNode Node = head;
+        maximum = Node.getValue();
+        minimum = Node.getValue();
+        while (Node != null) {
+            sum += (double) Node.getValue();
+            if (Node.getValue() < minimum) {
+                minimum = Node.getValue();
+            }
+            if (Node.getValue() > maximum) {
+                maximum = Node.getValue();
+            }
+            Node = Node.getNext();
+            numOfMembers++;
+
+        }
+        average = sum / numOfMembers;
+        Node = head;
+        if (numOfMembers % 2 == 1) {
+            for (int i = 0; i < numOfMembers / 2; i++) {
+                Node = Node.getNext();
+
+            }
+            median = Node.getValue();
+        } else {
+            for (int i = 0; i < numOfMembers / 2 - 1; i++) {
+                Node = Node.getNext();
+            }
+            median = Node.getValue();
+            Node = Node.getNext();
+            median += Node.getValue();
+            median /= 2;
+        }
+        double death[] = new double[5];
+        death[0] = sum;
+        death[1] = average;
+        death[2] = median;
+        death[3] = maximum;
+        death[4] = minimum;
+       // System.out.println("sum  "+sum+"  average  "+average+"   MED  "+median+"  MAX  "+maximum+"  MIN  "  +minimum);
+        return death;
+    }
+
+
+    public static LinkedListNode reverse(LinkedListNode head) {
+
+        if(head.getNext()==null){
+            return head;
+        }
+        LinkedListNode t = head.getNext();
+
+        LinkedListNode head2 = new LinkedListNode();
+
+        head2.setValue(head.getValue());
+
+        while (t != null) {
+            LinkedListNode temp = new LinkedListNode();
+            temp.setValue(t.getValue());
+            temp.setNext(head2);
+            head2 = temp;
+
+            t = t.NEXT;
+        }
+
+
+        LinkedListNode tt = head;
+
+        while ((head != null)) {
+            head.setValue(head2.getValue());
+            // head.num=head2.num;
+            head2 = head2.getNext();
+            // head2=head2.NEXT;
+            head = head.getNext();
+            // head=head.NEXT;
+        }
+
+
+        return tt;
+    }
+
+
+    public static LinkedListNode evenIndexedElements(LinkedListNode head) {
+        LinkedListNode temp = head;
+        int count = 1;
+        LinkedListNode NODE = new LinkedListNode();
+        NODE.num = head.num;
+        head = head.NEXT;
+        LinkedListNode way = NODE;
+        while (head != null) {
+            if (count % 2 == 0) {
+                NODE.NEXT = new LinkedListNode();
+                NODE.NEXT.num = head.num;
+                NODE = NODE.NEXT;
+            }
+            head = head.NEXT;
+            count++;
+        }
+
+        return way;
+    }
+
+
+    public static LinkedListNode insertionSort(LinkedListNode head) {
+        LinkedListNode temp;
+        LinkedListNode death = new LinkedListNode();
+        death.num = head.num;
+        temp = head.getNext();
+        while (temp != null) {
+            LinkedListNode theEndOfWar = new LinkedListNode();
+            theEndOfWar.setValue(temp.getValue());
+            death = Sacrifice(theEndOfWar, death);
+            temp = temp.getNext();
+        }
+        //head=death;
+        LinkedListNode die = head;
+        while (die != null) {
+            die.num = death.getValue();
+            die = die.NEXT;
+            death = death.NEXT;
+        }
+
+        return head;
+    }
+
+
+    private static LinkedListNode Sacrifice(LinkedListNode theEndOfWar, LinkedListNode death) {
+
+        int ss = theEndOfWar.getValue();
+        if (death.getValue() > ss) {
+            theEndOfWar.setNext(death);
+            death = theEndOfWar;
+            return death;
+        }
+        LinkedListNode m = death;
+        while (m.getNext() != null) {
+            if (m.getNext().getValue() > ss) {
+                theEndOfWar.setNext(m.getNext());
+                m.setNext(theEndOfWar);
+                return death;
+            }
+            m = m.getNext();
+        }
+        m.setNext(theEndOfWar);
+        return death;
+    }
+
+    public static LinkedListNode mergeSort(LinkedListNode head) {
+        LinkedListNode t = head;
+        int size = 0;
+        while (t != null) {
+            t = t.NEXT;
+            size++;
+        }
+        head= merge(head, size);
+        return head;
+    }
+
+    private static LinkedListNode merge(LinkedListNode head, int size) {
+        if (size > 1) {
+            int mid = size / 2;
+            LinkedListNode t = head;
+            for (int i = 0; i < mid - 1; i++)
+                t = t.getNext();
+            merge(head, mid);
+            merge(t.getNext(), size - mid);
+            head= mergedeath(head, size);
+        }
+        return head;
+    }
+
+    private static LinkedListNode mergedeath(LinkedListNode head, int size) {
+        int mid = size / 2;
+        int c1 = 0;
+        int c2 = 0;
+        boolean flag = true;
+        LinkedListNode t2 = head;
+        LinkedListNode t1 = head;
+
+        for (int i = 0; i < mid; i++) {
+            t2 = t2.getNext();
+        }
+        LinkedListNode toDoOrToDie = new LinkedListNode();
+        LinkedListNode ref = toDoOrToDie;
+        if (t1.getValue() < t2.getValue()) {
+            toDoOrToDie.setValue(t1.getValue());
+            c1++;
+            t1 = t1.NEXT;
+        } else {
+            toDoOrToDie.setValue(t2.getValue());
+            c2++;
+            t2 = t2.NEXT;
+        }
+
+        if (c1 == mid)
+            flag = false;
+        if (c2 == size - mid)
+            flag = false;
+
+        while (flag) {
+
+            if (t1.getValue() < t2.getValue()) {
+                LinkedListNode di = new LinkedListNode();
+                di.setValue(t1.getValue());
+                toDoOrToDie.setNext(di);
+                toDoOrToDie = toDoOrToDie.getNext();
+                c1++;
+                t1 = t1.getNext();
+            } else {
+                LinkedListNode di = new LinkedListNode();
+                di.setValue(t2.getValue());
+                toDoOrToDie.setNext(di);
+                toDoOrToDie = toDoOrToDie.getNext();
+                c2++;
+                t2 = t2.getNext();
+            }
+            if (c1 == mid)
+                flag = false;
+            if (c2 == size - mid)
+                flag = false;
+        }
+
+        while (c1 != mid) {
+            LinkedListNode di = new LinkedListNode();
+            di.setValue(t1.getValue());
+            toDoOrToDie.setNext(di);
+            toDoOrToDie = toDoOrToDie.getNext();
+            c1++;
+            t1 = t1.getNext();
+        }
+        while (c2 != size - mid) {
+            LinkedListNode di = new LinkedListNode();
+            di.setValue(t2.getValue());
+            toDoOrToDie.setNext(di);
+            toDoOrToDie = toDoOrToDie.getNext();
+            c2++;
+            t2 = t2.getNext();
+        }
+
+        toDoOrToDie=ref;
+        LinkedListNode t=head;
+        for(int z=0;z<size;z++){
+            t.setValue(toDoOrToDie.getValue());
+            t=t.getNext();
+            toDoOrToDie=toDoOrToDie.getNext();
+        }
+
+        return head;
+    }
+
+    public static LinkedListNode removeCentralNode(LinkedListNode head){
+        LinkedListNode t=head;
+        int size=0;
+        while (t!=null){
+            t=t.getNext();
+            size++;
+
+        }
+        if(size==2){
+            head.setValue(head.getNext().getValue());
+            head.setNext(null);
+
+            return head;
+        }
+        else if(size==1){
+
+            head.num=null;
+            head=null;
+
+
+
+            return null;
+        }
+        int goal=size%2==0?size/2:size/2+1;
+        t=head;
+        for(int i=0;i<goal-2;i++){
+            t=t.getNext();
+        }
+        LinkedListNode r=t.getNext().getNext();
+        t.setNext(r);
+        return head;
+
+
+    }
+    public static boolean palindrome(LinkedListNode head){
+        LinkedListNode t=new LinkedListNode();
+        LinkedListNode tt=t;
+        LinkedListNode temp=head;
+        while (temp!=null){
+            t.setValue(temp.getValue());
+            if(temp.getNext()!=null){
+                t.setNext(new LinkedListNode());
+            }
+            temp=temp.getNext();
+            t=t.getNext();
+        }
+        t=tt;
+        MySpecialLinkedListUtils.reverse(t);
+        while (t!=null){
+            if(t.getValue()!=head.getValue()){
+                return false;
+            }
+            t=t.getNext();
+            head=head.getNext();
+
+        }
+        return true;
+    }
+}
+
+
+
+
