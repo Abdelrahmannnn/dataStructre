@@ -1,6 +1,5 @@
-public class assaignment {
+public class assaignment{
     public static void main(String args[]){
-       
 
 
     }
@@ -71,7 +70,7 @@ class MySpecialLinkedListUtils {
         death[2] = median;
         death[3] = maximum;
         death[4] = minimum;
-       // System.out.println("sum  "+sum+"  average  "+average+"   MED  "+median+"  MAX  "+maximum+"  MIN  "  +minimum);
+
         return death;
     }
 
@@ -95,7 +94,6 @@ class MySpecialLinkedListUtils {
 
             t = t.NEXT;
         }
-
 
         LinkedListNode tt = head;
 
@@ -129,7 +127,7 @@ class MySpecialLinkedListUtils {
             head = head.NEXT;
             count++;
         }
-
+        head=temp;
         return way;
     }
 
@@ -157,7 +155,7 @@ class MySpecialLinkedListUtils {
     }
 
 
-    private static LinkedListNode Sacrifice(LinkedListNode theEndOfWar, LinkedListNode death) {
+    public static LinkedListNode Sacrifice(LinkedListNode theEndOfWar, LinkedListNode death) {
 
         int ss = theEndOfWar.getValue();
         if (death.getValue() > ss) {
