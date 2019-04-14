@@ -1,0 +1,207 @@
+package eg.edu.alexu.csd.datastructure.iceHockey;
+
+import java.awt.*;
+import java.util.LinkedList;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+public class asaa {
+    public static void main(String args[]){
+
+    }
+}
+
+class findPlayers implements IPlayersFinder{
+
+
+    public java.awt.Point[] findPlayers(String[] photo, int team, int threshold){
+        LinkedList<Point> points=new LinkedList<>();
+        boolean ref[][]=new boolean [photo.length][photo[0].length()];
+        for(int i=0;i<photo.length;i++){
+            for (int j=0;j<photo[i].length();j++){
+                if(photo[i].charAt(j)==Integer.toString(team).charAt(0)&&ref[i][j]==false){
+
+                    int[] position=new int[]{i,i,j,j};//top down  left right
+                    ref[i][j]=true;
+                    if(getPlayer(ref,i,j,photo,threshold,team,position)){
+                        getcenter(position,points);
+                    }else {
+                        ref[i][j]=false;
+                    }
+                }
+            }
+        }
+
+        return sort(points);
+
+    }
+
+    private java.awt.Point[] sort(LinkedList<Point> points ){
+        java.awt.Point[] death=new java.awt.Point[points.size()];
+        for(int i=0;i<death.length;i++){
+            death[i]=points.get(i);
+        }
+        for (int i=0;i<points.size();i++){
+            for(int j=0;j<points.size()-i-1;j++){
+                if(death[j].x>death[j+1].x){
+                    java.awt.Point temp=death[j];
+                    death[j]=death[j+1];
+                    death[j+1]=temp;
+                }
+            }
+        }
+        for (int i=0;i<points.size();i++){
+            for(int j=0;j<points.size()-i-1;j++) {
+
+                if(death[j].x==death[j+1].x&&death[j].y>death[j+1].y){
+                    java.awt.Point temp=death[j];
+                    death[j]=death[j+1];
+                    death[j+1]=temp;
+                }
+            }
+
+        }
+        return death;
+
+    }
+
+    private void getcenter(int[] position,LinkedList<Point> points) {
+        int x=position[2]*2;
+        int t=position[3]-position[2];
+        t/=2;
+        t*=2;
+        x+=t;
+        if((position[3]-position[2])%2==1){
+            x++;
+        }
+        int y=position[0]*2;
+        t=position[1]-position[0];
+        t/=2;
+        t*=2;
+        y+=t;
+
+        if((position[1]-position[0])%2==1){
+            y++;
+        }
+        points.add(new  java.awt.Point(x+1,y+1));
+    }
+    private boolean getPlayer(boolean [][] ref , int i ,int j,String[] photo,int  threshold,int team,int[] position){
+        int size=4;
+        size+=(getElement(i-1,j,ref,photo,team,position)+getElement(i,j+1,ref,photo,team,position)+getElement(i,j-1,ref,photo,team,position)+getElement(i+1,j,ref,photo,team,position));
+        if(size>=threshold){
+            return true;
+        }
+
+        return false;
+
+    }
+    private int getElement(int i , int j, boolean [][] ref,String[] photo,int team ,int[] position){
+
+        if(i<0||i>photo.length-1||j<0||j>photo[0].length()-1||ref[i][j]){
+            return 0;
+        }
+        if(photo[i].charAt(j)==Integer.toString(team).charAt(0)){
+            if(i>position[1])
+                position[1]=i;
+            if(i<position[0])
+                position[0]=i;
+            if(j<position[2])
+                position[2]=j;
+            if(j>position[3])
+                position[3]=j;
+
+            ref[i][j]=true;
+            return 4+(getElement(i-1,j,ref,photo,team, position)+getElement(i,j+1,ref,photo,team, position)+getElement(i,j-1,ref,photo,team, position)+getElement(i+1,j,ref,photo,team, position));
+        }
+        else {
+            return 0;
+        }
+    }
+
+
+
+
+}
+
+interface IPlayersFinder {
+
+    java.awt.Point[] findPlayers(String[] photo, int team, int threshold);
+}
+
+
+class findPlayersTest {
+
+    @org.junit.jupiter.api.Test
+    void findPlayers() {
+        findPlayers x1= new findPlayers();
+
+
+        String photo1[]=new String[]
+                {"33JUBU33",
+                        "3U3O4433",
+                        "O33P44NB",
+                        "PO3NSDP3",
+                        "VNDSD333",
+                        "OINFD33X"};
+        String photo2[]=new String[]
+                {"44444H44S4",
+                        "K444K4L444",
+                        "4LJ44T44XH",
+                        "444O4VIF44",
+                        "44C4D4U444",
+                        "4V4Y4KB4M4",
+                        "G4W4HP4O4W",
+                        "4444ZDQ4S4",
+                        "4BR4Y4A444",
+                        "4G4V4T4444"};
+        String photo3[]=new String[]
+                {"8D88888J8L8E888",
+                        "88NKMG8N8E8JI88",
+                        "888NS8EU88HN8EO",
+                        "LUQ888A8TH8OIH8",
+                        "888QJ88R8SG88TY",
+                        "88ZQV88B88OUZ8O",
+                        "FQ88WF8Q8GG88B8",
+                        "8S888HGSB8FT8S8",
+                        "8MX88D88888T8K8",
+                        "8S8A88MGVDG8XK8",
+                        "M88S8B8I8M88J8N",
+                        "8W88X88ZT8KA8I8",
+                        "88SQGB8I8J88W88",
+                        "U88H8NI8CZB88B8",
+                        "8PK8H8T8888TQR8"};
+        String photo4[] = new String[]{
+                "11111",
+                "1AAA1",
+                "1A1A1",
+                "1AAA1",
+                "11111"};
+        String p[]=new String[]{""};
+        java.awt.Point[] ans1=x1.findPlayers( photo1,3,16);
+        java.awt.Point[] ans2=x1.findPlayers( photo2,4,16);
+        java.awt.Point[] ans3=x1.findPlayers( photo3,8,9);
+        java.awt.Point[] ans4=x1.findPlayers( photo4,1,3);
+        java.awt.Point[] ans5=x1.findPlayers(p,1,5);
+        java.awt.Point[] expected1={new java.awt.Point(4,5) ,new java.awt.Point(13,9),new java.awt.Point(14,2)};
+
+        java.awt.Point[]expected2={
+                new java.awt.Point(3,8),new java.awt.Point(4,16),new java.awt.Point(5,4),
+                new java.awt.Point(16,3),new java.awt.Point(16,17),new java.awt.Point(17,9)
+        };
+
+
+        java.awt.Point[] expected3={new java.awt.Point(1,17) ,new java.awt.Point(3,3),new java.awt.Point(3,10),new java.awt.Point(3,25)
+                ,new java.awt.Point(5,21),new java.awt.Point(8,17),new java.awt.Point(9,2),new java.awt.Point(10,9)
+                ,new java.awt.Point(12,23),new java.awt.Point(17,16),new java.awt.Point(18,3)
+                ,new java.awt.Point(18,11),new java.awt.Point(18,28),new java.awt.Point(22,20),new java.awt.Point(23,26)
+                ,new java.awt.Point(24,15),new java.awt.Point(27,2),new java.awt.Point(28,26),new java.awt.Point(29,16)
+        };
+        java.awt.Point[] expected4={new java.awt.Point(5,5) ,new java.awt.Point(5,5)};
+
+        assertArrayEquals(expected1,ans1);
+        assertArrayEquals(expected2,ans2);
+        assertArrayEquals(expected3,ans3);
+        assertArrayEquals(expected4,ans4);
+        assertArrayEquals(new java.awt.Point[]{},ans5);
+    }
+}
